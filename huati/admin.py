@@ -1,3 +1,7 @@
-#from django.contrib import admin
 from lib import xadmin
-# Register your models here.
+from huati.models import Hua,Huafen,Commenthuati
+from django.contrib import admin
+xadmin.site.register(Hua)
+xadmin.site.register(Huafen)
+xadmin.site.register(Commenthuati)
+

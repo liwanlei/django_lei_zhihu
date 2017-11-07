@@ -1,3 +1,7 @@
-#from django.contrib import admin
 from lib import xadmin
-# Register your models here.
+from .models import Book,Bookcomment,Bookfenlei
+from django.contrib import admin
+xadmin.site.register(Book)
+xadmin.site.register(Bookcomment)
+xadmin.site.register(Bookfenlei)
+

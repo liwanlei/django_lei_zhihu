@@ -13,14 +13,17 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import sys
 import socket
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#sys.path.insert(0, BASE_DIR)
+#sys.path.insert(0, os.path.join(BASE_DIR, 'lib'))
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
 sys.path.insert(0, os.path.join(BASE_DIR, 'lib'))
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -29,12 +32,9 @@ SECRET_KEY = '4aoadg_)+m&f0)5y&hryy(zbitmheudzpxprqxhch8&ih2u5t('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
-AUTH_USER_MODEL='coustmer.Use'
-
+AUTH_USER_MODEL='coustmer.ZUser'
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,18 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'xadmin',
+   'coustmer',
+    'bookstore',
+    'huati',
+    'xinwen',
+    'xadmin',
     'crispy_forms',
     'reversion',
-    'DjangoUeditor',
-    'huati',
-    'bookstore',
-    'knowledge',
-    'coustmer',
-    'xinwen',
-    'zhuanlan'
+    'DjangoUeditor'
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -128,8 +125,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+

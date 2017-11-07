@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-from lib.xadmin.plugins import xversion
-from lib import xadmin
-xversion.register_models()
-xadmin.autodiscover()
+#from lib.xadmin.plugins import xversion
+#from lib import xadmin
+#xversion.register_models()
+#xadmin.autodiscover()
 urlpatterns = [
-   # url(r'^admin/', admin.site.urls),
-    url(r'xadmin/', include(xadmin.site.urls))
+   url(r'^admin/', admin.site.urls),
+    #url(r'xadmin/', include(xadmin.site.urls))
 ]

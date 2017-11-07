@@ -1,5 +1,11 @@
-#from django.contrib import admin
 from lib import xadmin
-from coustmer.models import Use
-# Register your models here.
-#xadmin.site.register(Use)
+from coustmer.models import *
+from django.contrib import admin
+#xadmin.site.unregister(ZUser)
+#xadmin.site.register(ZUser)
+xadmin.site.register(Shoucang)
+xadmin.site.register(Message)
+xadmin.site.register(Guanzhu)
+xadmin.site.register(Caogao)
+
+
