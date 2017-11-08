@@ -30,7 +30,6 @@ class New(models.Model):
         verbose_name = u'新闻'
         verbose_name_plural = verbose_name
         ordering=['-date_publish']
-        app_label = 'coustmer'
     def __str__(self) :
         return self.title
 class Commentxin(models.Model):
@@ -44,6 +43,5 @@ class Commentxin(models.Model):
         verbose_name = u'新闻评论'
         verbose_name_plural = verbose_name
         ordering=['-time']
-        app_label = 'coustmer'
     def __str__(self) :
         return self.user

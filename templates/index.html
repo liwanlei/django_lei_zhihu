@@ -1,14 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Examples</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "base.html" %}
+{% block page_content %}
+<div class="page-header">
+    <h1>知乎欢迎你，</h1>
+</div>
+
+<div class="answer-tabs">
+    <ul class="nav nav-tabs">
+        <li {% if not show_followed and not show_self %} class="active" {% endif %} >
+        <a href=" ">所有提问</a>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li {% if show_followed %} class="active" {% endif %} >
+        <a href="">关注用户的问题</a>
+        </li>
+        <li {% if show_self %} class="active" {% endif %} >
+        <a href="">自己的问题</a>
+        </li>
+        {% endif %}
+    </ul>
+
+</div>
+{% if pagination %}
+<div class="pagination">
+
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

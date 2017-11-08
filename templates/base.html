@@ -1,0 +1,168 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style>
+.my-button {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #ee2121, #CD0000) repeat scroll 0 0;
+    border: 1px solid #CD0000;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(255, 255, 255, 0.15) inset;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    font-size: 14px;
+    height: 32px;
+    line-height: 30px;
+	margin-top: -5px;
+    outline: 0 none;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease-in-out 0s;
+    width: 66px;}
+	
+.navbar-inverse .navbar-nav > li > a {
+    color: #efeff3;
+}
+
+.zu-top-search {
+    float: left;
+    margin: 7px 0 0 12px;
+    position: relative;
+}
+input[type="text"], input[type="password"]:focus {
+}
+.zu-top-search-input {
+    background-color: #CD0000;
+    border: 0px solid #045bb2;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #49525c;
+    font-size: 14px;
+    line-height: 17px;
+    outline: 0 none;
+    padding: 3px 50px 7px 10px;
+    transition: all 0.2s ease-in-out 0s;
+    width: 100%;
+}
+
+.zu-top-search-form .zu-top-search-button::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.zu-top-search-form .zu-top-search-button {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #0e7bef, #0d73da) repeat scroll 0 0;
+    border: 1px solid #045bb2;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(255, 255, 255, 0.15) inset;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 100%;
+    outline: 0 none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+}
+button {
+    line-height: 1.7;
+    padding: 0;
+}
+div[contentEditable], input, textarea, button, a:link {
+}
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+}
+</style>
+
+<link rel="shortcut icon" href="" type="image/x-icon">
+<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  </head>
+  <body>
+<div class="navbar navbar-inverse" style="background-color: steelblue; color: #ffffff;" role="navigation">
+    <div class="container">
+        <div class="navbar-header" >
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" style= "color: #ffffff;" href="/">知乎</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+
+			<form class="zu-top-search" action="#" method="post" name="search">
+
+				<div class="">
+				<input type="text" maxlength="100" value="" autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-activedescendant="AutoComplet-11259-5767--1" id="Popover-11259-52070-toggle" aria-haspopup="true" aria-owns="Popover-11259-52070-content" class="Input" placeholder="搜索你感兴趣的内容…" data-reactid="23">
+				</div>
+			</form>
+			<ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="#">话题</a></li>
+				<li><a href="#">发现</a></li>
+            </ul>
+			<ul class="nav navbar-nav navbar-right">
+    {% if request.session.username  %}
+                <li><a href="#">消息</a></li>
+                <li><a href="#">私信</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="#">
+                           <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href=""></a></li>
+                        <li><a href="">我的主页</a></li>
+                        <li><a href="{% url 'change_password' %}">修改密码</a></li>
+                        <li><a href="">改变邮箱</a></li>
+                        <li><a href="{% url 'logout' %}">登出</a></li>
+                    </ul>
+                </li>
+            </ul>
+             {% endif %}
+        </div>
+    </div>
+</div>
+
+    
+{% block content %}
+<div class="container">
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>
+<script>
+
+function flask_moment_render(elem) {
+    $(elem).text(eval('moment("' + $(elem).data('timestamp') + '").' + $(elem).data('format') + ';'));
+    $(elem).removeClass('flask-moment').show();
+}
+function flask_moment_render_all() {
+    $('.flask-moment').each(function() {
+        flask_moment_render(this);
+        if ($(this).data('refresh')) {
+            (function(elem, interval) { setInterval(function() { flask_moment_render(elem) }, interval); })(this, $(this).data('refresh'));
+        }
+    })
+}
+$(document).ready(function() {
+    flask_moment_render_all();
+});
+</script>
+  </body>
+</html>

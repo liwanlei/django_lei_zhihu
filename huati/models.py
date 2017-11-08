@@ -9,7 +9,6 @@ class Huafen(models.Model):
         verbose_name = u'话题分类'
         verbose_name_plural = verbose_name
         ordering = ['-time']
-        app_label = 'coustmer'
     def __str__(self):
         return self.name
 class Hua(models.Model):
@@ -32,7 +31,6 @@ class Hua(models.Model):
         verbose_name = u'话题'
         verbose_name_plural = verbose_name
         ordering=['-time']
-        app_label = 'coustmer'
     def __str__(self) :
         return self.title
 
@@ -47,6 +45,5 @@ class Commenthuati(models.Model):
         verbose_name = u'话题评论'
         verbose_name_plural = verbose_name
         ordering=['-time']
-        app_label = 'coustmer'
     def __str__(self) :
         return self.comment

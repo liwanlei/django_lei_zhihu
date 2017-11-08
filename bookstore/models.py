@@ -17,7 +17,6 @@ class Book(models.Model):
         verbose_name = u'书名'
         verbose_name_plural = verbose_name
         ordering = ['-id']
-        app_label = 'coustmer'
     def __str__(self):
         return self.name
 class  Bookcomment(models.Model):
@@ -31,7 +30,6 @@ class  Bookcomment(models.Model):
         verbose_name = u'书的评论'
         verbose_name_plural = verbose_name
         ordering = ['-id']
-        app_label = 'coustmer'
     def __str__(self):
         return self.connt
 class Bookfenlei(models.Model):
@@ -45,7 +43,6 @@ class Bookfenlei(models.Model):
         verbose_name = u'书分类'
         verbose_name_plural = verbose_name
         ordering = ['-id']
-        app_label = 'coustmer'
     def __str__(self):
         return self.name
 

@@ -15,11 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-#from lib.xadmin.plugins import xversion
-#from lib import xadmin
-#xversion.register_models()
-#xadmin.autodiscover()
+from lib.xadmin.plugins import xversion
+from lib import xadmin
+from coustmer.views import IndecView,LoginView,logoutview,RegiestView,pageNofoud,indeter,permission_denied,ChangepassView
+from django.contrib.auth.decorators import login_required
+xversion.register_models()
+xadmin.autodiscover()
 urlpatterns = [
    url(r'^admin/', admin.site.urls),
-    #url(r'xadmin/', include(xadmin.site.urls))
+    url(r'^xadmin/', include(xadmin.site.urls)),
+    url(r'^user/home/$',login_required(IndecView.as_view()),name='home'),
+    url(r'^user/login/$',LoginView.as_view(),name='login'),
+    url(r'^user/logout/$',logoutview,name='logout'),
+    url(r'^user/regiest/$', RegiestView.as_view(), name='regiest'),
+    url(r'^user/change_password/$', login_required(ChangepassView.as_view()), name='change_password'),
+
 ]
+handler404=pageNofoud
+handler403=permission_denied
+handler500=indeter

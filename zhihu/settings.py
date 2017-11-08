@@ -62,11 +62,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'zhihu.urls'
-
+LOGIN_URL = '/user/login/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,4 +129,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
+SESSION_COOKIE_AGE = 11*60
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

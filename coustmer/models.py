@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
 class ZUser(AbstractUser):
-    qq=models.IntegerField(u'qq',blank=True,unique=True)
-    mobile=models.IntegerField(u'手机号',blank=True,unique=True)
+    qq=models.IntegerField(u'qq',blank=True,null=True,unique=True)
+    mobile=models.IntegerField(u'手机号',blank=True,null=True,unique=True)
     login_status=models.BooleanField(u'是否锁定',default=False)
     is_login=models.BooleanField(u'是否登录',default=False)
     info=models.TextField(u'个人介绍',blank=True,null=True)

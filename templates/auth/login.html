@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="page-header"><div class="col-md-4">
+    <h1>登录</h1>
+    <form method="post" >
+        {% csrf_token %}
+      <div class="group-inputs" >
+          <h5><strong>{{ msg }}</strong></h5>
+            <div class="account input-wrapper form-group">
+             <label><strong>用户名</strong></label>
+                <p >{{ obj.user }}{{ obj.errors.user.0 }}</p></div>
+                    <div class="verification input-wrapper form-group">
+                        <label><strong>密码</strong></label>
+                        {{ obj.password }}{{ obj.errors.password.0 }}</div>
+            <div class="Captcha input-wrapper" data-type="cn" data-za-module="Captcha">
+            <div class="Captcha-operate">
+                <span class="Captcha-refresh js-refreshCaptcha sprite-index-icon-refresh"></span></div></div></div>
+                    <input type="submit" value="登录" class="btn btn-default">
+    </form>
+	     <br>
+	    <p>忘记密码?<a href="#">点击这里</a></p>
+	    <p>新用户?<a href="{% url  'regiest' %}">注册</a></p>
+</div>
+</div>
+{% endblock %}
