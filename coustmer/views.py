@@ -3,11 +3,13 @@ from .models import ZUser,FriendShip
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import  login,logout
 from django.views.generic import  View
+from huati.models import Hua
 from  coustmer.form_user import LoginForm,RegiestForm,ChangepassForm
 from django.contrib.auth.hashers import make_password, check_password
 class IndecView(View):
     def get(self,request):
-        return  render(request,'index.html')
+        huati_list=Hua.objects.all().order_by('-time')
+        return  render(request,'index.html',{'huati_list':huati_list})
 class LoginView(View):
     def get(self,request):
         login = LoginForm()
