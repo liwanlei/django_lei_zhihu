@@ -7,7 +7,6 @@ class ZUser(AbstractUser):
     is_login=models.BooleanField(u'是否登录',default=False)
     info=models.TextField(u'个人介绍',blank=True,null=True)
     work=models.CharField(u'公司',blank=True,null=True,max_length=60)
-    zhiwei=models.CharField(u'职位',blank=True,null=True,max_length=60)
     home=models.CharField(u'居住地',max_length=25,blank=True,null=True)
     class Meta:
         verbose_name = u'用户'
@@ -15,6 +14,23 @@ class ZUser(AbstractUser):
         ordering=['-id']
     def __str__(self) :
         return self.username
+    def get_follower(self):
+        '''
+        folloer  关注的人
+        :return:
+        '''
+        user_list = []
+        for followed_user in self.followed.all():
+            user_list.append(followed_user.follower)
+        return user_list
+    def get_followed(self):
+        '''
+        followed 关注我的人
+        '''
+        user_list = []
+        for follower_user in self.follower.all():
+            user_list.append(follower_user.followed)
+        return user_list
 from huati.models import Hua
 class Shoucang(models.Model):
     user=models.ForeignKey(ZUser)
@@ -60,6 +76,9 @@ class Caogao(models.Model):
         ordering = ['-id']
     def __str__(self):
         return self.neirong
+class FriendShip(models.Model):
+    followed = models.ForeignKey(ZUser,related_name='followed')
+    follower = models.ForeignKey(ZUser,related_name='follower')
 
 
 

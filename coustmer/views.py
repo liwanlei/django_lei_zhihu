@@ -1,5 +1,5 @@
-from django.shortcuts import render,redirect,HttpResponseRedirect,HttpResponse,render_to_response
-from .models import ZUser
+from django.shortcuts import render,redirect,HttpResponseRedirect,HttpResponse,render_to_response,reverse
+from .models import ZUser,FriendShip
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import  login,logout
 from django.views.generic import  View
@@ -14,16 +14,17 @@ class LoginView(View):
         return  render(request,'auth/login.html',{'obj':login})
     def post(self,request):
         login1 = LoginForm()
+        request.session['login_from'] = request.META.get('next', '/user/home')
         fo=LoginForm(request.POST)
         v=fo.is_valid()
         if v:
-            user=ZUser.objects.get(username=fo.cleaned_data['user'])
-            password2=user.password
+            user=ZUser.objects.filter(username=fo.cleaned_data['user']).first()
             if user:
+                password2 = user.password
                 if check_password(fo.cleaned_data['password'],password2,'utf-8') and user.is_active:
                     request.session['username'] = fo.cleaned_data['user']
                     login(request, user)
-                    return HttpResponseRedirect('/user/home/')
+                    return redirect(request.session['login_from'])
                 return render(request, 'auth/login.html',{'obj': login1,'msg':'登录失败！请确认密码'})
             return render(request, 'auth/login.html', {'obj': login1,'msg': '用户不存在！请确认用户输入是否正确'})
         return render(request, 'auth/login.html', {'obj': login1})
@@ -56,8 +57,15 @@ class RegiestView(View):
                 new_user=ZUser(email=data['email'],username=data['username'])
                 new_user.password=make_password(data['password'])
                 new_user.save()
+                print('11')
+                frodf=FriendShip()
+                frodf.follower=new_user
+                frodf.followed=new_user
+                frodf.save()
+
                 return HttpResponseRedirect('/user/login/')
-            except:
+            except Exception as e:
+                print(e)
                 return render(request, 'auth/register.html', {'form': fom, 'msg': '注册出现情况，请稍后注册!'})
         return  render(request,'auth/register.html',{'form':fom})
 def pageNofoud(request):
@@ -95,3 +103,53 @@ class ChangepassView(View):
                 return render(request, 'auth/change_password.html', {'form': changeform, 'msg': '修改密码失败！请重新输入'})
             return render(request, 'auth/change_password.html', {'form': changeform,'msg': '确认你的提交！'})
         return render(request, 'auth/change_password.html', {'form': changeform})
+class UserView(View):
+    def get(self,request,username):
+        user=ZUser.objects.filter(username=username).first()
+        if not user:
+            return render(request, 'auth/user.html')
+        return  render(request, 'auth/user.html',{'user':user})
+class UserdataView(View):
+    def get(self,request):
+        return  render(request,'auth/userdata.html')
+    def post(self,request):
+        work=request.POST['work']
+        home=request.POST['home']
+        info=request.POST['info']
+        user=request.session['username']
+        user_data=ZUser.objects.filter(username=user).first()
+        if not  user_data:
+            return  HttpResponseRedirect('/user/home/')
+        user_data.work=work
+        user_data.home=home
+        user_data.info=info
+        try:
+            user_data.save()
+            return HttpResponseRedirect('/user/userdata/')
+        except Exception as e:
+            print(e)
+            return render(request, 'auth/userdata.html',{'msg':'保存出错了'})
+        return  render(request,'auth/userdata.html')
+class AddforView(View):
+    def get(self,request,name):
+        zu=ZUser.objects.filter(username=name).first()
+        if zu:
+            login=ZUser.objects.filter(username=request.session['username']).first()
+            if login:
+                friendship = FriendShip()
+                friendship.followed=zu
+                friendship.follower=login
+                friendship.save()
+                return redirect('user',username=name)
+            return render(request, 'auth/userdata.html', {'msg': '请重新关注'})
+        return redirect('user', username=name)
+class ResetforView(View):
+    def get(self,request,name):
+        zu=ZUser.objects.filter(username=name).first()
+        if zu:
+            login=ZUser.objects.filter(username=request.session['username']).first()
+            if login:
+                FriendShip.objects.filter(followed=zu).delete()
+                return redirect('user',username=name)
+            return render(request, 'auth/userdata.html', {'msg': '请重新取消关注'})
+        return redirect('user', username=name)

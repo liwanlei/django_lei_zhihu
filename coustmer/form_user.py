@@ -52,4 +52,3 @@ class ChangepassForm(forms.Form):
         'max_length': '密码输入太长了',
         'min_length': '密码输入太短了'
     }, widget=widgets.PasswordInput(attrs={'class': 'form-control'}))
-

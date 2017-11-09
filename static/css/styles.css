@@ -171,3 +171,10 @@ div.flask-pagedown-preview h3 {
 .answer.followers tr {
     border-bottom: 1px solid #e0e0e0;
 }
+#TopstorySideBar-navText{
+-webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: 0 10px;
+    text-align: left;
+}

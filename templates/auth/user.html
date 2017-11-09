@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+     <h1>{{user.username }}</h1>
+<div class="page-header">
+    <img class="img-rounded profile-thumbnail" src="#">
+    <div class="profile-header">
+        <p><a href="#"></a></p>
+    <p></p>
+        <p>注册日期 :{{ user.date_joined |date:"Y年m月d日 H时i分" }}</p>
+    {% load tz %}
+        <p>最后使用:{{ user.last_login | date:"Y年m月d日 H时i分" }}</p>
+        <p> 提问数量：</p>
+        <p>回答数量：</p>
+        <p> 评论数量：</p>
+        {% if user.username == request.session.username %}
+        <p>     <a class="btn btn-default" href="{% url  'userdata' %}">修改信息</a>
+            {% else %}
+             <p>{% if user in request.user.get_followed %}
+        			<a href="{% url 'retfor'  name=user.username%}" class="btn btn-info">取消关注</a>
+        {% else %}
+        <a href="{%  url 'addfor' name=user.username %}" class='btn btn-primary'>关注</a>
+        {% endif %}
+        {% endif %}
+        </p>
+    </div>
+</div>
+    <div class="ProfileMain-header" style="display: block;">
+        <ul role="tablist" class="Tabs ProfileMain-tabs" style="border-bottom: 1px solid #f0f2f7;">
+            <li role="tab" class="Tabs-item Tabs-item--noMeta" aria-controls="Profile-activities" style="display: inline-block;padding: 0 20px;">
+                <a class="Tabs-link is-active" href="#">动态</a></li>
+            <li role="tab" class="Tabs-item" aria-controls="Profile-answers"style="display: inline-block;padding: 0 20px;"><a class="Tabs-link" href="#">
+                <!-- react-text: 1255 -->回答<!-- /react-text --><span class="Tabs-meta"></span></a></li>
+            <li role="tab" class="Tabs-item" aria-controls="Profile-asks" style="display: inline-block;padding: 0 20px;">
+                <a class="Tabs-link" href="#"><!-- react-text: 1259 -->提问<!-- /react-text --><span class="Tabs-meta"></span></a></li>
+            <li role="tab" class="Tabs-item" aria-controls="Profile-posts" style="display: inline-block;padding: 0 20px;">
+                <a class="Tabs-link" href="#"><!-- react-text: 1263 -->文章<!-- /react-text --><span class="Tabs-meta"></span></a></li>
+        </ul></div>
+{% endblock %}
+{% block right %}
+    <div class="Card FollowshipCard" style="font-size: 14px;    margin-bottom: 10px;background: #fff;overflow: hidden; border-radius: 2px;-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1);box-shadow: 0 1px 3px rgba(0,0,0,.1);-webkit-box-sizing: border-box;margin-top: 100px;box-sizing: border-box;">
+        <div class="NumberBoard FollowshipCard-counts"><div class="NumberBoard-name" style="    display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;text-align: center;">
+            <p><strong>关注了：</strong></p>
+           <p>{% for user in user.get_followed %}
+                <a href="{% url 'user' username=user.username %}">{{ user.username }}</a> {% endfor %}</p>
+        </div>
+            <div class="NumberBoard-divider"></div>
+            <div class="NumberBoard-divider" style="margin: 16px 0;"></div>
+        <div class="NumberBoard-name" style="    display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center; text-align: center;">
+            <strong>关注者：</strong>
+        {% for user in user.get_follower %}
+              <span> <a href="{% url 'user' username=user.username %}">{{ user.username }}</a> &nbsp; &nbsp;  </span>{% endfor %}</div></div></div>
+  <div class="Profile-lightList" style="font-size: 14px;">
+      <p style="    color: inherit;text-decoration: none;    align-items: center;height: 46px;font-size: 14px;border-top: 1px solid #e6e6e6;padding-left: 5px;">
+          <span class="Profile-lightItemName"><strong>关注的话题</strong></span>
+          <span class="Profile-lightItemValue"></span></p>
+       <p style="    color: inherit;text-decoration: none;    align-items: center;height: 46px;font-size: 14px;border-top: 1px solid #e6e6e6;padding-left: 5px;">
+          <span class="Profile-lightItemName"><strong>关注的问题</strong></span>
+           <span class="Profile-lightItemValue"></span>
+         </p>
+      </div>
+{% endblock %}

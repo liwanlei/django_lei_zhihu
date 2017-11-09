@@ -17,7 +17,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from lib.xadmin.plugins import xversion
 from lib import xadmin
-from coustmer.views import IndecView,LoginView,logoutview,RegiestView,pageNofoud,indeter,permission_denied,ChangepassView
+from coustmer.views import IndecView,LoginView,logoutview,RegiestView,pageNofoud,indeter,permission_denied,ChangepassView,UserView,UserdataView,AddforView,ResetforView
 from django.contrib.auth.decorators import login_required
 xversion.register_models()
 xadmin.autodiscover()
@@ -29,6 +29,10 @@ urlpatterns = [
     url(r'^user/logout/$',logoutview,name='logout'),
     url(r'^user/regiest/$', RegiestView.as_view(), name='regiest'),
     url(r'^user/change_password/$', login_required(ChangepassView.as_view()), name='change_password'),
+    url(r'^user/user/(?P<username>\w+)/$', login_required(UserView.as_view()), name='user'),
+    url(r'^user/userdata/$', login_required(UserdataView.as_view()), name='userdata'),
+    url(r'^user/addfor/(?P<name>\w+)/$', login_required(AddforView.as_view()), name='addfor'),
+   url(r'^user/retfor/(?P<name>\w+)/$', login_required(ResetforView.as_view()), name='retfor'),
 
 ]
 handler404=pageNofoud
