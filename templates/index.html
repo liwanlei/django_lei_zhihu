@@ -3,38 +3,85 @@
     <div class="TopstoryHeader" style="   display: flex;-webkit-box-pack: justify;-ms-flex-pack: justify;justify-content: space-between;line-height: 58px;padding: 0 20px;"><div class="TopstoryHeader-nav">
         <a href="#"  title="提问" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle" style="margin-left: 40px;transition: color .2s ease-in; font-size: 16px;">提问</a>
         <a href="#"  title="回答" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle" style="margin-left: 40px;transition: color .2s ease-in; font-size: 16px;">回答</a>
-        <a href="#"  title="写文章" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle " style="margin-left: 40px; color .2s ease-in;">
+        <a href="{% url 'addpost' %}"  title="写文章" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle " style="margin-left: 40px; color .2s ease-in;">
             写文章</a>
         </div>
-        <a class="TopstoryHeader-rightItem" href="#" target="" title="草稿">草稿</a></div>
+        </div>
 <div class="page-header">
 </div>
 <div class="answer-tabs">
-    {%for list in huati_list%}
+    {%for list in topics%}
     <ul class="nav nav-tabs">
         <div class="Feed" data-za-module="FeedItem"  >
-    <div class="Feed-meta" >来自话题: {{list.}}</div></div></div><div class="Feed-title" ><div class="Feed-meta" >
+    <div class="Feed-meta" >来自话题:
+        {% for fenlei in list.fenlei.all %}
+        {{ fenlei}}
+        {% endfor %}
+    </div></div></div><div class="Feed-title" ><div class="Feed-meta" >
     <span class="Feed-meta-item" ><span ><span ><span class="UserLink">
         <div class="Popover" >
 <div  aria-haspopup="true" >
-<span class="Feed-meta-item">2小时前</span></div></div>
+<span class="Feed-meta-item">/span></div></div>
 <div class="ContentItem AnswerItem" data-zop=" itemprop="answer" >
     <h2 class="ContentItem-title" data-reactid="105">
         <div itemprop="zhihu:question" data-reactid="106">
-<a target="_blank" data-za-detail-view-element_name="Title" href="#" >2017 年双 11 有哪些值得购买的商品？</a></div></h2>
-<div class="ContentItem-meta" data-reactid="110"><div class="AnswerItem-meta" data-reactid="111" style=''>
-   去年的双十一，我不管三七二十一只要喜欢就直接加购物车买买买，也不算商品是否便宜了还是临时加价了，结果其实被坑了不少。明年我马上要出国了，我妈总说要我有点儿省钱的意识，所以相比去年的双十一，今年的双十一…
-</span><a href=''>阅读全文</a></div>
+<a target="_blank" data-za-detail-view-element_name="Title" href="#" >{{ list.title }}</a></div></h2>
+<div class="ContentItem-meta"  style="    margin-top: 6px;">
+{% if  list.is_shi is True %}
+  <a href="{% url 'user' username=list.user.username %}">{{ list.user}}</a>
+    <span>{{ list.user.info }}</span>
+{% else %}
+     <span>匿名</span>
+{% endif %}
+    <div class="AnswerItem-meta" data-reactid="111" style='    margin-top: 6px;'>
+   {% if list.desc == None %}
+    {{ list.title }}
+    {% else%}
+  {{ list.desc }}
+       {% endif %}
+    </span><a href='#'>阅读全文</a></span>
+    </span>
+    </div>
    <div class="ContentItem-actions" style="height: 52px;
 padding: 0 20px;margin: 4px -20px -8px;color: #555;background: #fff;
 clear: both;">  
 <a class="Button ContentItem-action Button--plain Button--withIcon Button--withLabel" style="">
-    <!-- react-text: 282 -->​<!-- /react-text --><svg class="Zi Zi--Comment Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em" data-reactid="283"><path d="M10.241 19.313a.97.97 0 0 0-.77.2 7.908 7.908 0 0 1-3.772 1.482.409.409 0 0 1-.38-.637 5.825 5.825 0 0 0 1.11-2.237.605.605 0 0 0-.227-.59A7.935 7.935 0 0 1 3 11.25C3 6.7 7.03 3 12 3s9 3.7 9 8.25-4.373 9.108-10.759 8.063z" fill-rule="evenodd" ></path></svg>19 条评论</a>
-<div class="Popover ShareMenu ContentItem-action" ><div class="" id="Popover-1358-34050-toggle" ></div></div><a class="Button ContentItem-action Button--plain Button--withIcon Button--withLabel"  >
-<svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em" data-reactid="412"><path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z" fill-rule="evenodd" data-reactid="413"></path></svg>收藏</a></div></div></div></div>
-{%endfor%}
+  <svg class="Zi Zi--Comment Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em" data-reactid="283">
+      <path d="M10.241 19.313a.97.97 0 0 0-.77.2 7.908 7.908 0 0 1-3.772 1.482.409.409 0 0 1-.38-.637 5.825 5.825 0 0 0 1.11-2.237.605.605 0 0 0-.227-.59A7.935 7.935 0 0 1 3 11.25C3 6.7 7.03 3 12 3s9 3.7 9 8.25-4.373 9.108-10.759 8.063z" fill-rule="evenodd" ></path>
+  </svg>{% if list.commenthuati.count == None  %}
+   评论
+    {% else %}
+ {{ list.commenthuati.count }}条评论 {% endif %}</a>
+       {% if list in list.user.get_shoucang%}
+<div class="Popover ShareMenu ContentItem-action" >
+    <div class="" id="Popover-1358-34050-toggle" ></div></div>
+       <a class="Button ContentItem-action Button--plain Button--withIcon Button--withLabel"  href="{% url 'addcollection' title=list.title %}" >
+<svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em" data-reactid="412">
+    <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z" fill-rule="evenodd" data-reactid="413"></path></svg>
+          取消 收藏</a></div></div></div></div>
+        {% else %}
+       <div class="Popover ShareMenu ContentItem-action" >
+    <div class="" id="Popover-1358-34050-toggle" ></div></div>
+         <a class="Button ContentItem-action Button--plain Button--withIcon Button--withLabel"  href="{% url 'addcollection' title=list.title %}" >
+<svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em" data-reactid="412">
+    <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z" fill-rule="evenodd" data-reactid="413"></path></svg>
+           收藏</a></div></div></div></div>
+        {% endif %}
+    {%endfor%}
     </ul>
 </div>
+   <ul class="pagination">
+{% if topics.has_previous %}
+  <li><a href="?page={{ topics.previous_page_number }}">上一页</a></li>
+  {% endif %}
+  {# topics.paginator.number_pages 返回总页数 #}
+       <li><a>当前页 {{ topics.number }} 共 {{ topics.paginator.num_pages }}页</a></li>
+{% if topics.has_next %}
+ <li> <a href="?page={{ topics.next_page_number }}">下一页</a></li>
+{% endif %}
+</ul>
+
+
 {% endblock %}
 {% block right %}
     <div class="Card"  style="argin-bottom: 10px; background: #fff;overflow: hidden; border-radius: 2px;-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1);box-shadow: 0 1px 3px rgba(0,0,0,.1);-webkit-box-sizing: border-box;box-sizing: border-box;">

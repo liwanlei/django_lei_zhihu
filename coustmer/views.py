@@ -1,15 +1,25 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect,HttpResponse,render_to_response,reverse
 from .models import ZUser,FriendShip
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib.auth import  login,logout
 from django.views.generic import  View
 from huati.models import Hua
 from  coustmer.form_user import LoginForm,RegiestForm,ChangepassForm
 from django.contrib.auth.hashers import make_password, check_password
 class IndecView(View):
-    def get(self,request):
+    def get(self,request,page=1):
+        limit=25
         huati_list=Hua.objects.all().order_by('-time')
-        return  render(request,'index.html',{'huati_list':huati_list})
+        paginator =Paginator(huati_list,limit)
+        page=request.GET.get('page')
+        try:
+            topics = paginator .page(page)  # 获取某页对应的记录
+        except PageNotAnInteger:  # 如果页码不是个整数
+            topics = paginator .page(1)  # 取第一页的记录
+        except EmptyPage:  # 如果页码太大，没有相应的记录
+            topics = paginator .page(paginator.num_pages)
+        return  render(request,'index.html',{'topics':topics})
 class LoginView(View):
     def get(self,request):
         login = LoginForm()
@@ -59,12 +69,10 @@ class RegiestView(View):
                 new_user=ZUser(email=data['email'],username=data['username'])
                 new_user.password=make_password(data['password'])
                 new_user.save()
-                print('11')
                 frodf=FriendShip()
                 frodf.follower=new_user
                 frodf.followed=new_user
                 frodf.save()
-
                 return HttpResponseRedirect('/user/login/')
             except Exception as e:
                 print(e)

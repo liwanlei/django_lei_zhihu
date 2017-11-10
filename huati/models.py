@@ -12,11 +12,16 @@ class Huafen(models.Model):
     def __str__(self):
         return self.name
 class Hua(models.Model):
+    wenzhang='文章'
+    hauti='话题'
+    tiwen='提问'
     new_fen = (
-        (0, u'提问'),
-        (1, u'话题')
+        (wenzhang, u'文章'),
+        (hauti, u'话题'),
+        (tiwen, u'提问')
     )
     title=models.CharField(u'标题',max_length=255)
+    desc=models.CharField(u'简述',max_length=255,blank=True,null=True)
     connet=models.TextField(u'话题内容')
     time=models.DateTimeField(u'发表时间',auto_now_add=True)
     user=models.ForeignKey(ZUser)
@@ -26,16 +31,16 @@ class Hua(models.Model):
     guanzhu_num=models.IntegerField(u'关注人数',default=0)
     liu_num=models.IntegerField(u'浏览人数',default=0)
     yaoqing=models.CharField(u'邀请人',max_length=255)
-    leibie = models.CharField(max_length=4, choices=new_fen)
+    leibie = models.CharField(max_length=4, choices=new_fen,default=wenzhang)
     class Meta:
         verbose_name = u'话题'
         verbose_name_plural = verbose_name
         ordering=['-time']
     def __str__(self) :
         return self.title
-
 class Commenthuati(models.Model):
     user=models.ForeignKey(ZUser)
+    huati=models.ForeignKey(Hua)
     time=models.DateTimeField(u'话题评论时间',auto_now_add=True)
     comment=models.TextField(u'话题评论内容')
     dianzan=models.IntegerField(u'点赞',default=0)

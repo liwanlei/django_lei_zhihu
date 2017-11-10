@@ -6,6 +6,5 @@ from django.contrib import admin
 xadmin.site.register(Shoucang)
 xadmin.site.register(Message)
 xadmin.site.register(Guanzhu)
-xadmin.site.register(Caogao)
 
 

@@ -1,0 +1,26 @@
+{% extends "base.html" %}]
+{% block page_content%}
+<div class="page-header"><div class="col-md-4">
+    <h1>写文章</h1>
+    <form method="post" >
+        {% csrf_token %}
+      <div class="group-inputs" >
+          <h5><strong style="color: red">{{ msg }}</strong></h5>
+            <div class="account input-wrapper form-group">
+             <label><strong>标题</strong></label>
+                <p >{{ form.title }}{{ form.errors.title.0 }}</p></div>
+                    <div class="verification input-wrapper form-group">
+                        <label><strong>正文</strong></label>
+                        {{ form.text }}{{ form.errors.text.0 }}</div>
+          <div class="verification input-wrapper form-group">
+                        <label><strong>分类</strong></label>
+                        <span>{{ form.feilei }}{{ form.feilei.text.0 }}</span></div>
+            <div class="Captcha input-wrapper" data-type="cn" data-za-module="Captcha">
+            <div class="Captcha-operate">
+                <span class="Captcha-refresh js-refreshCaptcha sprite-index-icon-refresh"></span></div></div></div>
+                    <input type="submit" value="发布" class="btn btn-default">
+    </form>
+
+</div>
+</div>
+{% endblock %}

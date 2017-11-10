@@ -31,18 +31,15 @@ class ZUser(AbstractUser):
         for follower_user in self.follower.all():
             user_list.append(follower_user.followed)
         return user_list
+    def get_shoucang(self):
+        shoucang_list=[]
+        for shoucang in self.shoucanguser.all():
+            shoucang_list.append(shoucang.shoucanghua.all())
+        return  shoucang_list
 from huati.models import Hua
 class Shoucang(models.Model):
-    user=models.ForeignKey(ZUser)
-    name=models.CharField(u'收藏夹名字',max_length=255)
-    hua=models.ManyToManyField(Hua)
-    status=models.BooleanField(u'状态',default=False)
-    class Meta:
-        verbose_name = u'收藏夹名字'
-        verbose_name_plural = verbose_name
-        ordering = ['-id']
-    def __str__(self):
-        return self.name
+    shoucanguser=models.ForeignKey(ZUser,related_name='shoucanguser',null=True,blank=True)
+    shoucanghua=models.ManyToManyField(Hua,related_name='shoucanghua')
 class Message(models.Model):
     user_id=models.ForeignKey(ZUser)
     messages=models.TextField(u'私信内容')
@@ -57,25 +54,9 @@ class Message(models.Model):
     def __str__(self):
         return self.messages
 class Guanzhu(models.Model):
-    user=models.ForeignKey(ZUser)
-    guanzhu=models.ManyToManyField(Hua)
+    user=models.ForeignKey(ZUser,related_name='guanzhuuser')
+    guanzhu=models.ManyToManyField(Hua,related_name='guanzhuhuati')
     add_time=models.DateTimeField(u'关注时间',auto_now_add=True)
-    class Meta:
-        verbose_name = u'关注'
-        verbose_name_plural = verbose_name
-        ordering = ['-id']
-    def __str__(self):
-        return self.guanzhu
-class Caogao(models.Model):
-    user=models.ForeignKey(ZUser)
-    neirong = models.ManyToManyField(Hua)
-    status=models.BooleanField(u'状态',default=False)
-    class Meta:
-        verbose_name = u'草稿'
-        verbose_name_plural = verbose_name
-        ordering = ['-id']
-    def __str__(self):
-        return self.neirong
 class FriendShip(models.Model):
     followed = models.ForeignKey(ZUser,related_name='followed')
     follower = models.ForeignKey(ZUser,related_name='follower')

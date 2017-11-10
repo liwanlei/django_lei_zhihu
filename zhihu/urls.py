@@ -18,6 +18,7 @@ from django.contrib import admin
 from lib.xadmin.plugins import xversion
 from lib import xadmin
 from coustmer.views import IndecView,LoginView,logoutview,RegiestView,pageNofoud,indeter,permission_denied,ChangepassView,UserView,UserdataView,AddforView,ResetforView
+from huati.views import Addcomment,Addcollection
 from django.contrib.auth.decorators import login_required
 xversion.register_models()
 xadmin.autodiscover()
@@ -32,8 +33,9 @@ urlpatterns = [
     url(r'^user/user/(?P<username>\w+)/$', login_required(UserView.as_view()), name='user'),
     url(r'^user/userdata/$', login_required(UserdataView.as_view()), name='userdata'),
     url(r'^user/addfor/(?P<name>\w+)/$', login_required(AddforView.as_view()), name='addfor'),
-   url(r'^user/retfor/(?P<name>\w+)/$', login_required(ResetforView.as_view()), name='retfor'),
-
+    url(r'^user/retfor/(?P<name>\w+)/$', login_required(ResetforView.as_view()), name='retfor'),
+    url(r'^huati/addpost/$', login_required(Addcomment.as_view()), name='addpost'),
+     url(r'^huati/addcollection/(?P<title>\w+)/$',login_required(Addcollection.as_view()),name='addcollection')
 ]
 handler404=pageNofoud
 handler403=permission_denied
