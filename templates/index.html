@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block page_content %}
     <div class="TopstoryHeader" style="   display: flex;-webkit-box-pack: justify;-ms-flex-pack: justify;justify-content: space-between;line-height: 58px;padding: 0 20px;"><div class="TopstoryHeader-nav">
-        <a href="#"  title="提问" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle" style="margin-left: 40px;transition: color .2s ease-in; font-size: 16px;">提问</a>
+        <a href="{% url 'addquest' %}"  title="提问" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle" style="margin-left: 40px;transition: color .2s ease-in; font-size: 16px;">提问</a>
         <a href="#"  title="回答" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle" style="margin-left: 40px;transition: color .2s ease-in; font-size: 16px;">回答</a>
         <a href="{% url 'addpost' %}"  title="写文章" class="TopstoryHeader-navItem TopstoryHeader-navItemArticle " style="margin-left: 40px; color .2s ease-in;">
             写文章</a>
@@ -25,9 +25,14 @@
 <div class="ContentItem AnswerItem" data-zop=" itemprop="answer" >
     <h2 class="ContentItem-title" data-reactid="105">
         <div itemprop="zhihu:question" data-reactid="106">
-<a target="_blank" data-za-detail-view-element_name="Title" href="#" >{{ list.title }}</a></div></h2>
+            {% if list.leibie == '文章' %}
+<a target="_blank" data-za-detail-view-element_name="Title" href="{% url 'postdetile' id=list.id %}" >{{ list.title }}</a>
+        {% else %}
+            <a target="_blank" data-za-detail-view-element_name="Title" href="{% url 'questiondetile' id=list.id %}" >{{ list.title }}</a>
+            {% endif %}
+        </div></h2>
 <div class="ContentItem-meta"  style="    margin-top: 6px;">
-{% if  list.is_shi is True %}
+{% if  list.is_shi == 0 %}
   <a href="{% url 'user' username=list.user.username %}">{{ list.user}}</a>
     <span>{{ list.user.info }}</span>
 {% else %}
@@ -52,21 +57,12 @@ clear: both;">
    评论
     {% else %}
  {{ list.commenthuati.count }}条评论 {% endif %}</a>
-       {% if list in list.user.get_shoucang%}
-<div class="Popover ShareMenu ContentItem-action" >
-    <div class="" id="Popover-1358-34050-toggle" ></div></div>
-       <a class="Button ContentItem-action Button--plain Button--withIcon Button--withLabel"  href="{% url 'addcollection' title=list.title %}" >
-<svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em" data-reactid="412">
-    <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z" fill-rule="evenodd" data-reactid="413"></path></svg>
-          取消 收藏</a></div></div></div></div>
-        {% else %}
        <div class="Popover ShareMenu ContentItem-action" >
     <div class="" id="Popover-1358-34050-toggle" ></div></div>
-         <a class="Button ContentItem-action Button--plain Button--withIcon Button--withLabel"  href="{% url 'addcollection' title=list.title %}" >
+         <a class="Button ContentItem-action Button--plain Button--withIcon Button--withLabel"  href="{% url 'addcollection' id=list.id %}" >
 <svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em" data-reactid="412">
     <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z" fill-rule="evenodd" data-reactid="413"></path></svg>
            收藏</a></div></div></div></div>
-        {% endif %}
     {%endfor%}
     </ul>
 </div>
@@ -80,8 +76,6 @@ clear: both;">
  <li> <a href="?page={{ topics.next_page_number }}">下一页</a></li>
 {% endif %}
 </ul>
-
-
 {% endblock %}
 {% block right %}
     <div class="Card"  style="argin-bottom: 10px; background: #fff;overflow: hidden; border-radius: 2px;-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1);box-shadow: 0 1px 3px rgba(0,0,0,.1);-webkit-box-sizing: border-box;box-sizing: border-box;">
@@ -89,7 +83,12 @@ clear: both;">
     -webkit-padding-start: 40px;">
     <li class="TopstorySideBar-navItem TopstorySideBar-starItem"  style=" list-style-type: none;   display: list-item;text-align:-webkit-match-parent;width: 100%;padding: 8px 0;">
         <a class="Button TopstorySideBar-navLink Button--plain" href="" target="_blank" >
-    <span class="TopstorySideBar-navText" >我的收藏</span></a></li>
+    <span class="TopstorySideBar-navText" >我的收藏 </span>
+            {% if guanzhuhuati == 0 %}
+             <span class="TopstorySideBar-navNumber"></span>
+            {% else %}
+         <span class="TopstorySideBar-navNumber">{{ guanzhuhuati }}</span>
+        {% endif %}</a></li>
     <li class="TopstorySideBar-navItem TopstorySideBar-questionListItem" style="list-style-type: none;" >
      <a class="Button TopstorySideBar-navLink Button--plain" target="_blank" type="button"  href="#">
         <span class="TopstorySideBar-navText" >我关注的问题</span>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 class ZUser(AbstractUser):
+    id = models.IntegerField(u'id', primary_key=True)
     qq=models.IntegerField(u'qq',blank=True,null=True,unique=True)
     mobile=models.IntegerField(u'手机号',blank=True,null=True,unique=True)
     login_status=models.BooleanField(u'是否锁定',default=False)
@@ -38,9 +39,10 @@ class ZUser(AbstractUser):
         return  shoucang_list
 from huati.models import Hua
 class Shoucang(models.Model):
-    shoucanguser=models.ForeignKey(ZUser,related_name='shoucanguser',null=True,blank=True)
+    shoucanguser=models.ForeignKey(ZUser,related_name='shoucanguser')
     shoucanghua=models.ManyToManyField(Hua,related_name='shoucanghua')
 class Message(models.Model):
+    id = models.IntegerField(u'id', primary_key=True)
     user_id=models.ForeignKey(ZUser)
     messages=models.TextField(u'私信内容')
     send_date=models.DateTimeField(u'发送时间',auto_now_add=True)

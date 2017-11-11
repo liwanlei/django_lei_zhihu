@@ -18,7 +18,7 @@ from django.contrib import admin
 from lib.xadmin.plugins import xversion
 from lib import xadmin
 from coustmer.views import IndecView,LoginView,logoutview,RegiestView,pageNofoud,indeter,permission_denied,ChangepassView,UserView,UserdataView,AddforView,ResetforView
-from huati.views import Addcomment,Addcollection
+from huati.views import Addcomment,Addcollection,AddquestinsView,PostdetileView,QuestionView
 from django.contrib.auth.decorators import login_required
 xversion.register_models()
 xadmin.autodiscover()
@@ -35,7 +35,10 @@ urlpatterns = [
     url(r'^user/addfor/(?P<name>\w+)/$', login_required(AddforView.as_view()), name='addfor'),
     url(r'^user/retfor/(?P<name>\w+)/$', login_required(ResetforView.as_view()), name='retfor'),
     url(r'^huati/addpost/$', login_required(Addcomment.as_view()), name='addpost'),
-     url(r'^huati/addcollection/(?P<title>\w+)/$',login_required(Addcollection.as_view()),name='addcollection')
+     url(r'^huati/addcollection/(?P<id>\d+)/$',login_required(Addcollection.as_view()),name='addcollection'),
+   url(r'^huati/addquest/$',login_required(AddquestinsView.as_view()),name='addquest'),
+   url(r'^huati/postdetile(?P<id>\d+)/$',login_required(PostdetileView.as_view()),name='postdetile'),
+   url(r'^huati/questiondetile(?P<id>\d+)/$',login_required(QuestionView.as_view()),name='questiondetile'),
 ]
 handler404=pageNofoud
 handler403=permission_denied

@@ -43,7 +43,6 @@ INSTALLED_APPS = [
    'coustmer',
     'bookstore',
     'huati',
-    'xinwen',
     'xadmin',
     'crispy_forms',
     'reversion',

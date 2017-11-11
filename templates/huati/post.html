@@ -1,0 +1,53 @@
+{% extends "base.html" %}]
+{% block page_content%}
+    <div style="margin-left: 30%">
+<div class="TopstoryHeader" style="   display: flex;-webkit-box-pack: justify;-ms-flex-pack: justify;justify-content: space-between;line-height: 58px;padding: 0 20px;"><div class="TopstoryHeader-nav">
+        </div>
+        </div>
+<div class="page-header">
+</div>
+<div>
+<h2>{{ title.title }}</h2>
+    <div style="margin-top: 20px;"></div>
+    <p ><a href="{% url 'user' username=title.user.username %}">{{ title.user }}</a>
+        <span style="margin: 0 6px;"></span><span>{{ title.time|date:"Y年m月d日 H时i分" }}</span></p>
+    <p style="margin-top: 40px;">{{ title.connet }}</p></div>
+    <div style="margin-top: 50px">
+        {% for fenlei in title.getfenlei  %}
+    <a href="#" style="">{{ fenlei.name }}</a>
+    {% endfor %}
+    </div>
+<div class="BlockTitle av-marginLeft av-borderColor PostComment-blockTitle" style="position: relative;
+    z-index: 3;margin-top: 90px">
+    <span class="BlockTitle-title">{{ comment.count }}条评论</span>
+    <span class="BlockTitle-line"></span></div>
+    <form method="post" style="margin-top: 10px">
+        <textarea class="form-control" rows="3" name="comment"></textarea>
+        <input type="submit" class=" btn btn-default" style="margin-top: 3px">
+    </form>
+<div style="margin-top: 25px">
+    {% for commne in comment %}
+        {% if commne.pid %}
+             <p><a href="{% url 'user' username=commne.user.username %}">{{ commne.user }}</a></p>
+    <p style="margin-left: 10px">{{ commne.comment }}</p>
+     <p>{{ commne.time |date:"Y-m-d H:i"}}回复{{ commne.pid.user }}</p>
+            {% else %}
+             <p><a href="{% url 'user' username=commne.user.username %}">{{ commne.user }}</a></p>
+    <p style="margin-left: 10px">{{ commne.comment }}</p>
+     <p>{{ commne.time |date:"Y-m-d H:i"}}评论</p>
+        {% endif %}
+
+    {% endfor %}
+</div>
+    </div>
+{% endblock %}
+    {% block right %}
+    <div class="Card"  style="argin-bottom: 10px; background: #fff;overflow: hidden; border-radius: 2px;-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1);box-shadow: 0 1px 3px rgba(0,0,0,.1);-webkit-box-sizing: border-box;box-sizing: border-box;">
+<ul class="TopstorySideBar-navList"  style="display: block;list-style-type: disc;-webkit-margin-before: 1em;-webkit-margin-after: 1em;-webkit-margin-start: 0px;-webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;">
+    <li class="TopstorySideBar-navItem TopstorySideBar-starItem"  style=" list-style-type: none;   display: list-item;text-align:-webkit-match-parent;width: 100%;padding: 8px 0;">
+        <a class="Button TopstorySideBar-navLink Button--plain" href="{% url 'addpost' %}" target="_blank" >
+    <span class="TopstorySideBar-navText" >写文章 </span>
+        </a></li></ul>
+{% endblock %}
+

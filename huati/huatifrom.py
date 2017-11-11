@@ -6,7 +6,7 @@
 """
 from django import  forms
 from  django.forms import fields,widgets
-from  .models import Huafen
+from  .models import Huafen,Hua
 class WritercontForm(forms.Form):
     title = fields.CharField(min_length=2, max_length=30, error_messages={
         'required': '标题不能为空！',
@@ -15,3 +15,12 @@ class WritercontForm(forms.Form):
     }, widget=widgets.Input(attrs={'class': 'form-control'}))
     feilei=forms.ModelChoiceField(queryset=Huafen.objects.filter(status=False),required=True)
     text=fields.CharField(widget=widgets.Textarea(attrs={'class': 'form-control'}))
+class AskquestionForm(forms.Form):
+    title = fields.CharField(min_length=2, max_length=30, error_messages={
+        'required': '标题不能为空！',
+        'max_length': '标题输入太长了',
+        'min_length': '标题输入太短了'
+    }, widget=widgets.Input(attrs={'class': 'form-control'}))
+    connet = fields.CharField(widget=widgets.Textarea(attrs={'class': 'form-control'}))
+    feilei = forms.ModelChoiceField(queryset=Huafen.objects.filter(status=False), required=True)
+    is_shi=fields.BooleanField(widget=widgets.CheckboxInput(),required=False)

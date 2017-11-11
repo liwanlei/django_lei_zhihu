@@ -9,6 +9,8 @@ from  coustmer.form_user import LoginForm,RegiestForm,ChangepassForm
 from django.contrib.auth.hashers import make_password, check_password
 class IndecView(View):
     def get(self,request,page=1):
+        user=ZUser.objects.filter(username=request.session['username']).first()
+        list=user.get_shoucang()
         limit=25
         huati_list=Hua.objects.all().order_by('-time')
         paginator =Paginator(huati_list,limit)
@@ -19,7 +21,7 @@ class IndecView(View):
             topics = paginator .page(1)  # 取第一页的记录
         except EmptyPage:  # 如果页码太大，没有相应的记录
             topics = paginator .page(paginator.num_pages)
-        return  render(request,'index.html',{'topics':topics})
+        return  render(request,'index.html',{'topics':topics,'guanzhuhuati':len(list)})
 class LoginView(View):
     def get(self,request):
         login = LoginForm()
