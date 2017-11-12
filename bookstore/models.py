@@ -1,7 +1,7 @@
 from django.db import models
 from coustmer.models import ZUser
 class Book(models.Model):
-    id = models.IntegerField(u'id', primary_key=True)
+    id = models.AutoField(primary_key=True)
     name=models.CharField(u'书名',max_length=255)
     auth=models.CharField(u'作者',max_length=54)
     zishu=models.IntegerField(u'字数',blank=True,null=True)
@@ -21,7 +21,7 @@ class Book(models.Model):
     def __str__(self):
         return self.name
 class  Bookcomment(models.Model):
-    id = models.IntegerField(u'id', primary_key=True)
+    id = models.AutoField(primary_key=True)
     book=models.ForeignKey(Book)
     user=models.ForeignKey(ZUser)
     connt=models.TextField(u'内容')
@@ -35,7 +35,7 @@ class  Bookcomment(models.Model):
     def __str__(self):
         return self.connt
 class Bookfenlei(models.Model):
-    id = models.IntegerField(u'id', primary_key=True)
+    id = models.AutoField(primary_key=True)
     name=models.CharField(u'分类名',max_length=32)
     adduser=models.ForeignKey(ZUser)
     addtime=models.DateTimeField(u'添加时间',auto_now_add=True)

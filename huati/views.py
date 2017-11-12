@@ -3,7 +3,7 @@ from .models import Hua,Huafen,Commenthuati
 from  .huatifrom import WritercontForm,AskquestionForm
 from coustmer.models import ZUser,Shoucang
 from django.views.generic import  View
-class Addcomment(View):
+class AddpostView(View):
     def get(self,request):
         form=WritercontForm()
         return  render(request,'huati/writer.html',{'form':form})
@@ -32,7 +32,6 @@ class Addcomment(View):
                 New_title.save()
                 return  HttpResponseRedirect(reverse('home'))
             except Exception as e:
-                print(e)
                 return render(request, 'huati/writer.html', {'form': form, 'msg': '请稍后发布！'})
         return render(request, 'huati/writer.html', {'form': form})
 class Addcollection(View):
@@ -72,7 +71,7 @@ class AddquestinsView(View):
                 New_title.save()
                 New_title.fenlei.add(data['feilei'])
                 New_title.save()
-            except:
+            except Exception as e:
                 return render(request, 'huati/addquestion.html', {'form': form,'msg':'请再次输入您的提问'})
             return redirect('home')
         return render(request, 'huati/addquestion.html', {'form': form})
@@ -103,7 +102,6 @@ class QuestionView(View):
         user = ZUser.objects.filter(username=request.session['username']).first()
         question = Hua.objects.filter(id=id).first()
         comment =Commenthuati.objects.filter(commenthuati__huati__title=question.title).all()
-        print(comment)
         data = request.POST.get('comment')
         if data:
             new_comment = Commenthuati()
@@ -116,3 +114,17 @@ class QuestionView(View):
             except Exception as e:
                 return render(request, 'huati/question.html', {'title': question, 'comment': comment,'msg':'请再次评论'})
         return render(request, 'huati/question.html', {'title': question, 'comment': comment})
+class DetilehuatiView(View):
+    def get(self,request):
+        user=ZUser.objects.filter(username=request.session['username']).first()
+        guanzhu=user.get_guanzhu()
+        huati_list=[]
+        for huati in guanzhu:
+            hu=Hua.objects.filter(fenlei=huati[0]).first()
+            huati_list.append(hu)
+        return  render(request, 'huati/guanzhuhuati.html', {'guanhzu':guanzhu, 'huati_list':huati_list})
+class DetitleOneView(View):
+    def get(self,request,name):
+        fenlei=Huafen.objects.filter(name=name).first()
+        huati=Hua.objects.filter(fenlei=fenlei).all()
+        return  render(request,'huati/onedetail.html',{'huati':huati})

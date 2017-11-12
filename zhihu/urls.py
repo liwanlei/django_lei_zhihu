@@ -18,12 +18,12 @@ from django.contrib import admin
 from lib.xadmin.plugins import xversion
 from lib import xadmin
 from coustmer.views import IndecView,LoginView,logoutview,RegiestView,pageNofoud,indeter,permission_denied,ChangepassView,UserView,UserdataView,AddforView,ResetforView
-from huati.views import Addcomment,Addcollection,AddquestinsView,PostdetileView,QuestionView
+from huati.views import AddpostView,Addcollection,AddquestinsView,PostdetileView,QuestionView,DetilehuatiView,DetitleOneView
 from django.contrib.auth.decorators import login_required
 xversion.register_models()
 xadmin.autodiscover()
 urlpatterns = [
-   url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^xadmin/', include(xadmin.site.urls)),
     url(r'^user/home/$',login_required(IndecView.as_view()),name='home'),
     url(r'^user/login/$',LoginView.as_view(),name='login'),
@@ -34,11 +34,13 @@ urlpatterns = [
     url(r'^user/userdata/$', login_required(UserdataView.as_view()), name='userdata'),
     url(r'^user/addfor/(?P<name>\w+)/$', login_required(AddforView.as_view()), name='addfor'),
     url(r'^user/retfor/(?P<name>\w+)/$', login_required(ResetforView.as_view()), name='retfor'),
-    url(r'^huati/addpost/$', login_required(Addcomment.as_view()), name='addpost'),
-     url(r'^huati/addcollection/(?P<id>\d+)/$',login_required(Addcollection.as_view()),name='addcollection'),
-   url(r'^huati/addquest/$',login_required(AddquestinsView.as_view()),name='addquest'),
-   url(r'^huati/postdetile(?P<id>\d+)/$',login_required(PostdetileView.as_view()),name='postdetile'),
-   url(r'^huati/questiondetile(?P<id>\d+)/$',login_required(QuestionView.as_view()),name='questiondetile'),
+    url(r'^huati/addpost/$', login_required(AddpostView.as_view()), name='addpost'),
+    url(r'^huati/addcollection/(?P<id>\d+)/$',login_required(Addcollection.as_view()),name='addcollection'),
+    url(r'^huati/addquest/$',login_required(AddquestinsView.as_view()),name='addquest'),
+    url(r'^huati/postdetile(?P<id>\d+)/$',login_required(PostdetileView.as_view()),name='postdetile'),
+    url(r'^huati/questiondetile(?P<id>\d+)/$',login_required(QuestionView.as_view()),name='questiondetile'),
+    url(r'^huati/huatidetile/$',login_required(DetilehuatiView.as_view()),name='huatidetile'),
+    url(r'^huati/onedetiale/(?P<name>\w+)$', login_required(DetitleOneView.as_view()), name='onedetaile'),
 ]
 handler404=pageNofoud
 handler403=permission_denied

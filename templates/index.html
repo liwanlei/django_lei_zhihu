@@ -15,7 +15,7 @@
         <div class="Feed" data-za-module="FeedItem"  >
     <div class="Feed-meta" >来自话题:
         {% for fenlei in list.fenlei.all %}
-        {{ fenlei}}
+        <a href="{% url 'onedetaile' name=fenlei.name%}">{{ fenlei.name}}</a>
         {% endfor %}
     </div></div></div><div class="Feed-title" ><div class="Feed-meta" >
     <span class="Feed-meta-item" ><span ><span ><span class="UserLink">
@@ -44,7 +44,11 @@
     {% else%}
   {{ list.desc }}
        {% endif %}
-    </span><a href='#'>阅读全文</a></span>
+    </span> {% if list.leibie == '文章' %}
+<a target="_blank" data-za-detail-view-element_name="Title" href="{% url 'postdetile' id=list.id %}" >阅读全文</a>
+        {% else %}
+            <a target="_blank" data-za-detail-view-element_name="Title" href="{% url 'questiondetile' id=list.id %}" >阅读全文</a>
+            {% endif %}</span>
     </span>
     </div>
    <div class="ContentItem-actions" style="height: 52px;
@@ -92,7 +96,9 @@ clear: both;">
     <li class="TopstorySideBar-navItem TopstorySideBar-questionListItem" style="list-style-type: none;" >
      <a class="Button TopstorySideBar-navLink Button--plain" target="_blank" type="button"  href="#">
         <span class="TopstorySideBar-navText" >我关注的问题</span>
-                    <span class="TopstorySideBar-navNumber"></span></a></li>
+                    <span class="TopstorySideBar-navNumber"></span></a>
+
+    </li>
     <li class="TopstorySideBar-navItem TopstorySideBar-inviteItem"  style="list-style-type: none;">
      <a class="Button TopstorySideBar-navLink Button--plain" href="/#" target="_blank" type="button" >
         <span class="TopstorySideBar-navText" >我的邀请</span></a></li>

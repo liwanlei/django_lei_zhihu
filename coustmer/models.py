@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 class ZUser(AbstractUser):
-    id = models.IntegerField(u'id', primary_key=True)
+    id = models.AutoField(primary_key=True)
     qq=models.IntegerField(u'qq',blank=True,null=True,unique=True)
     mobile=models.IntegerField(u'手机号',blank=True,null=True,unique=True)
     login_status=models.BooleanField(u'是否锁定',default=False)
@@ -37,12 +37,17 @@ class ZUser(AbstractUser):
         for shoucang in self.shoucanguser.all():
             shoucang_list.append(shoucang.shoucanghua.all())
         return  shoucang_list
-from huati.models import Hua
+    def get_guanzhu(self):
+        guanzhu_list=[]
+        for guanzhu in self.guanzhuuser.all():
+            guanzhu_list.append(guanzhu.guanzhu.all())
+        return  guanzhu_list
+from huati.models import Hua,Huafen
 class Shoucang(models.Model):
     shoucanguser=models.ForeignKey(ZUser,related_name='shoucanguser')
-    shoucanghua=models.ManyToManyField(Hua,related_name='shoucanghua')
+    shoucanghua=models.ManyToManyField(Hua,related_name='shoucanghua',blank=True,null=True)
 class Message(models.Model):
-    id = models.IntegerField(u'id', primary_key=True)
+    id = models.AutoField(primary_key=True)
     user_id=models.ForeignKey(ZUser)
     messages=models.TextField(u'私信内容')
     send_date=models.DateTimeField(u'发送时间',auto_now_add=True)
@@ -57,7 +62,7 @@ class Message(models.Model):
         return self.messages
 class Guanzhu(models.Model):
     user=models.ForeignKey(ZUser,related_name='guanzhuuser')
-    guanzhu=models.ManyToManyField(Hua,related_name='guanzhuhuati')
+    guanzhu=models.ManyToManyField(Huafen,related_name='guanzhuhuati')
     add_time=models.DateTimeField(u'关注时间',auto_now_add=True)
 class FriendShip(models.Model):
     followed = models.ForeignKey(ZUser,related_name='followed')

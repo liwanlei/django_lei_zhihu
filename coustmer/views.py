@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect,HttpResponse,render_to_response,reverse
 from .models import ZUser,FriendShip
+from  operator import  attrgetter
+from itertools import chain
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.contrib.auth import  login,logout
 from django.views.generic import  View
-from huati.models import Hua
+from huati.models import Hua,Commenthuati
 from  coustmer.form_user import LoginForm,RegiestForm,ChangepassForm
 from django.contrib.auth.hashers import make_password, check_password
 class IndecView(View):
@@ -16,10 +18,10 @@ class IndecView(View):
         paginator =Paginator(huati_list,limit)
         page=request.GET.get('page')
         try:
-            topics = paginator .page(page)  # 获取某页对应的记录
-        except PageNotAnInteger:  # 如果页码不是个整数
-            topics = paginator .page(1)  # 取第一页的记录
-        except EmptyPage:  # 如果页码太大，没有相应的记录
+            topics = paginator .page(page)
+        except PageNotAnInteger:
+            topics = paginator .page(1)
+        except EmptyPage:
             topics = paginator .page(paginator.num_pages)
         return  render(request,'index.html',{'topics':topics,'guanzhuhuati':len(list)})
 class LoginView(View):
@@ -118,9 +120,12 @@ class ChangepassView(View):
 class UserView(View):
     def get(self,request,username):
         user=ZUser.objects.filter(username=username).first()
+        comment=Commenthuati.objects.filter(user__username=username).all()
+        hua=Hua.objects.filter(user__username=username).all()
+        note=sorted(chain(hua,comment),key=attrgetter('time'),reverse=True)
         if not user:
             return render(request, 'auth/user.html')
-        return  render(request, 'auth/user.html',{'user':user})
+        return  render(request, 'auth/user.html',{'user':user,'note':note,'comment':comment,'huat':hua})
 class UserdataView(View):
     def get(self,request):
         return  render(request,'auth/userdata.html')

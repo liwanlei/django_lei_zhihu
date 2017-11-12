@@ -31,7 +31,7 @@ SECRET_KEY = '4aoadg_)+m&f0)5y&hryy(zbitmheudzpxprqxhch8&ih2u5t('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = []
-AUTH_USER_MODEL='coustmer.ZUser'
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -106,6 +106,7 @@ TIME_ZONE = 'Asia/Shanghai'
 USE_TZ = True
 USE_I18N = True
 USE_L10N = True
+AUTH_USER_MODEL='coustmer.ZUser'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 STATIC_URL = '/static/'

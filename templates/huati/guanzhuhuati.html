@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <div>已关注分类：
+    <p>--------------------------------------------------------</p>
+    <p style="margin-top: 20px">{% for guanzhu in guanhzu %}
+        {% for guan in guanzhu %}
+            <a>{{ guan.name }}</a>
+            {% endfor %}
+    {% endfor %}
+    </div>
+    ----------------------------------------------
+    <div style="margin-top: 20px">
+      {% for hu in huati_list  %}
+          {%  if hu.liebie == '提问' %}
+      <p style="margin-top: 10px"><a href="{% url 'questiondetile' id=hu.id %}">{{ hu.title}}</a></p>
+          <a href="{% url 'user' username=hu.user.username%}">{{ hu.user.username }}</a>
+              <span style="margin-left: 5px">{{ hu.user.info }}</span>
+          <p style="margin-left: 2px;margin-top: 5px">{{ hu.desc }}</p>
+          <a>关注问题</a>
+          {% endif %}
+    {% endfor %}
+    </div>
+{% endblock %}
