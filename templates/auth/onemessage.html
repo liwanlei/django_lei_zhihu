@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <h1> 消息详情</h1>
+                        <ul class="bubble-wrap" style="margin-top: 20px">
+                                    <li id="li_msg_1813992">
+                                        <div style="color: #999999 !important;">
+                                                <a href="#" target="_blank"  style="color:#999;text-decoration: none">
+                                                    {{ messsage.user_id.username }}
+                                                </a>
+                                            {{ messsage.send_date|date:"Y-m-d H:i" }} <a  href="{% url 'detemessage' id=messsage.id %}">删除</a>
+                                           <a class="click_del_off" href="{% url 'readyimess' id=messsage.id %}" >标为已读</a>
+                                        </div>
+                                        <div class="bubble-main left" style="margin-top:4px;">
+                                            <div class="bubble-content" style=""><p>
+                                                {{ messsage.messages|safe }}
+                                            </p>
+</div>
+                                            <div class="arrow-left" style="top:4px;"></div>
+                                        </div>
+                                    </li>
+                        </ul>
+                  {% endblock %}

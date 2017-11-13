@@ -1,0 +1,30 @@
+{% extends "base.html" %}]
+{% block page_content%}
+<div class="page-header"><div class="col-md-4">
+    <h1>编辑文章</h1>
+    <form method="post" >
+        {% csrf_token %}
+      <div class="group-inputs" >
+          <h5><strong style="color: red">{{ msg }}</strong></h5>
+            <div class="account input-wrapper form-group">
+             <label><strong>标题</strong></label>
+                <p ><input type="text" name="title" class="form-control" value="{{ editpost.title }}"></p></div>
+                    <div class="verification input-wrapper form-group">
+                        <label><strong>正文</strong></label>
+                       <p><textarea name="content" style="margin: 0px;width: 241px;height: 233px;" class="comment_textarea">{{ editpost.connet }}</textarea></p></div>
+                        <div class="verification input-wrapper form-group">
+                        <label><strong>分类</strong></label>
+                        <span><select name="fenlei">
+                            {% for fen in fenlei %}
+                          <option value ="{{ fen }}">{{ fen }}</option>
+                          {% endfor %}
+                        </select></span></div>
+            <div class="Captcha input-wrapper" data-type="cn" data-za-module="Captcha">
+            <div class="Captcha-operate">
+                <span class="Captcha-refresh js-refreshCaptcha sprite-index-icon-refresh"></span></div></div></div>
+                    <input type="submit" value="编辑" class="btn btn-default">
+    </form>
+
+</div>
+</div>
+{% endblock %}

@@ -127,4 +127,33 @@ class DetitleOneView(View):
     def get(self,request,name):
         fenlei=Huafen.objects.filter(name=name).first()
         huati=Hua.objects.filter(fenlei=fenlei).all()
-        return  render(request,'huati/onedetail.html',{'huati':huati})
+        return  render(request,'huati/onedetail.html',{'huati':huati,'name':name})
+class EditPostView(View):
+    def get(self,request,id):
+        editpost=Hua.objects.filter(id=id).first()
+        fenlei=Huafen.objects.all()
+        if not  editpost:
+            return render(request, 'huati/editpost.html',{'msg':'文章不存在'})
+        return  render(request,'huati/editpost.html',{'editpost':editpost,'fenlei':fenlei})
+    def post(self,request,id):
+        editpost = Hua.objects.filter(id=id).first()
+        fenlei = Huafen.objects.all()
+        title=request.POST.get("title")
+        connent=request.POST['content']
+        fen=request.POST['fenlei']
+        user = ZUser.objects.filter(username=request.session['username']).first()
+        editpost.title = title
+        editpost.connet = connent
+        editpost.desc = connent[:35]
+        editpost.user_id = user
+        editpost.leibie = '文章'
+        try:
+            for fe in (editpost.fenlei.all()):
+                editpost.fenlei.remove(fe)
+            editpost.fenlei.add(Huafen.objects.filter(name=fen).first())
+            editpost.save()
+            return redirect('postdetile',id=id)
+        except Exception as e:
+            print(e)
+            return render(request, 'huati/editpost.html', {'editpost': editpost, 'msg': '请稍后编辑！','fenlei':fenlei})
+        return render(request, 'huati/editpost.html',{'editpost':editpost,'fenlei':fenlei})

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <h2>欢迎你！{{ request.session.username }}</h2>
+    <div style="margin-top: 20px">
+    未读消息
+        <table style="margin-top: 10px">
+            <thead>
+                <tr style="margin-top: 20px">
+                    <td width="100px">
+                        发件人
+                    </td>
+                    <td width="405px">
+                        内容
+                    </td>
+                    <td width="130px" align="center">
+                        发送时间
+                    </td>
+                    <td colspan="2" width="100px" >
+                        处理
+                    </td>
+                </tr>
+            </thead>
+            <tbody  style="margin-top: 20px">
+            {% for messag in message %}
+                    <tr id="msg_item_1813992" style="margin-top: 20px">
+                        <td style="position: absolute;" class="text_overflow_ellipsis" width="100px">
+                            <a class="contactLink" href="{% url 'user' username=messag.user_id.username %}" target="_blank" >{{ messag.user_id.username }}</a>
+                        </td>
+                        <td class="text_overflow_ellipsis">
+                        {% if messag.is_read == 0 %}
+                            <a id="msg_title_1813992" href="{% url 'onemessage' id=messag.id %}" >
+                            <strong>{{ messag.messages|safe|slice:'25'}}...</strong>
+                            </a>
+                        {% else %}
+                         <a id="msg_title_1813992" href="{% url 'onemessage' id=messag.id %}" >
+                          {{ messag.messages|safe|slice:'25'}}...
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ messag.send_date|date:"Y-m-d H:i" }}</td>
+                        <td style="width: 40px;"><a class="click_del_off" href="{% url 'detemessage' id=messag.id %}">删除</a></td>
+                        <td style="" align=""><a class="click_del_off" href="{% url 'readyimess' id=messag.id %}" >标为已读</a></td>
+                    </tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

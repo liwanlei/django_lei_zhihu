@@ -9,12 +9,17 @@
 <div>
 <h2>{{ title.title }}</h2>
     <div style="margin-top: 20px;"></div>
+{% if  list.is_shi == 0 %}
     <p ><a href="{% url 'user' username=title.user.username %}">{{ title.user }}</a>
-        <span style="margin: 0 6px;"></span><span>{{ title.time|date:"Y年m月d日 H时i分" }}</span></p>
-    <p style="margin-top: 40px;">{{ title.connet }}</p></div>
+    {% else %}<p >匿名{% endif %}
+        <span style="margin: 0 6px;"></span><span>{{ title.time|date:"Y年m月d日 H时i分" }}</span><span style="float: right">
+            {% if request.session.username == title.user.username %}
+            <a href="{% url 'editpost' id=title.id %}">编辑</a></span></p>
+    {% endif %}
+    <p style="margin-top: 40px;">{{ title.connet|safe }}</p></div>
     <div style="margin-top: 50px">
         {% for fenlei in title.getfenlei  %}
-    <a href="#" style="">{{ fenlei.name }}</a>
+    <a href="{% url 'onedetaile' name=fenlei.name  %}" style="">{{ fenlei.name }}</a>
     {% endfor %}
     </div>
 <div class="BlockTitle av-marginLeft av-borderColor PostComment-blockTitle" style="position: relative;

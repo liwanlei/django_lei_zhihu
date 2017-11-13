@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect,HttpResponse,render_to_response,reverse
-from .models import ZUser,FriendShip
+from .models import ZUser,FriendShip,Message
 from  operator import  attrgetter
 from itertools import chain
 from django.contrib.auth.decorators import login_required
@@ -9,8 +9,15 @@ from django.views.generic import  View
 from huati.models import Hua,Commenthuati
 from  coustmer.form_user import LoginForm,RegiestForm,ChangepassForm
 from django.contrib.auth.hashers import make_password, check_password
+def glable_setting(request):
+    try:
+        new_message = Message.objects.filter(resce_user=request.session['username'],is_read=False,status=False).count()
+        return {"new_message":new_message}
+    except:
+        return {}
 class IndecView(View):
     def get(self,request,page=1):
+
         user=ZUser.objects.filter(username=request.session['username']).first()
         list=user.get_shoucang()
         limit=25
@@ -170,3 +177,29 @@ class ResetforView(View):
                 return redirect('user',username=name)
             return render(request, 'auth/userdata.html', {'msg': '请重新取消关注'})
         return redirect('user', username=name)
+class ReadMessage(View):
+    def get(self,request):
+        new_message = Message.objects.filter(resce_user=request.session['username'], is_read=False,status=False).all()
+        return render(request,'auth/message.html',{'message':new_message})
+class DeteMessage(View):
+    def get(self,request,id):
+        message=Message.objects.filter(id=id,status=False).first()
+        try:
+            message.status=True
+            message.save()
+            return redirect('readmessage')
+        except:
+            return  redirect('readmessage')
+class ReadMessagey(View):
+    def get(self,request,id):
+        message=Message.objects.filter(id=id,status=False).first()
+        try:
+            message.is_read=True
+            message.save()
+            return redirect('readmessage')
+        except:
+            return  redirect('readmessage')
+class Onemessage(View):
+    def get(self,request,id):
+        message = Message.objects.filter(id=id, status=False).first()
+        return  render(request,'auth/onemessage.html',{'messsage':message})

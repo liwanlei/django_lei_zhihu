@@ -5,17 +5,23 @@
     <h3><a>{{ i.name }}</a></h3>
     {% endfor %}
     <h2 style="margin-top: 10px">{{ question.title }}</h2>
-    <h4 style="margin-top: 10px">{{ question.connet }}</h4>
-    <div style="margin-top: 10px"></div>
-    <p>{{ comment.count }}个回答</p>
-     <form method="post" style="margin-top: 10px">
+    <h4 style="margin-top: 10px">{{ question.connet| safe }}</h4>
+    <div style="margin-top: 15px">
+
+    </div>
+    <p style="margin-top: 15px">{{ comment.count }}个回答</p>
+
+    --------------------------------------
+
+     <form method="post" style="margin-top: 15px">
+         回答：
         <textarea class="form-control" rows="3" name="comment"></textarea>
         <input type="submit" class=" btn btn-default" style="margin-top: 3px" value="回答">
     </form>
     {% for commne in comment %}
         {% if commne.pid %}
              <p><a href="{% url 'user' username=commne.user.username %}">{{ commne.user }}</a></p>
-    <p style="margin-left: 10px">{{ commne.comment }}</p>
+    <p style="margin-left: 10px">{{ commne.comment| safe }}</p>
      <p>{{ commne.time |date:"Y-m-d H:i"}}回复{{ commne.pid.user }}</p>
             {% else %}
              <p><a href="{% url 'user' username=commne.user.username %}">{{ commne.user }}</a></p>
