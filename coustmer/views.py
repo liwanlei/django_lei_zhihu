@@ -17,7 +17,6 @@ def glable_setting(request):
         return {}
 class IndecView(View):
     def get(self,request,page=1):
-
         user=ZUser.objects.filter(username=request.session['username']).first()
         list=user.get_shoucang()
         limit=25

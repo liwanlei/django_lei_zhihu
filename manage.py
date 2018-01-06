@@ -12,7 +12,6 @@ if __name__ == "__main__":
         # exceptions on Python 2.
         try:
             import django
-
         except ImportError:
             raise ImportError(
                 "Couldn't import Django. Are you sure it's installed and "

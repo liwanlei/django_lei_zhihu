@@ -85,6 +85,8 @@ class PostdetileView(View):
         title = Hua.objects.filter(id=id).first()
         comment = Commenthuati.objects.filter(commenthuati__huati__title=title.title)
         data =request.POST.get('comment')
+        if not data:
+            return  render(request,'huati/post.html',{'title':title,'comment':comment})
         if data:
             new_comment=Commenthuati()
             new_comment.huati=title
@@ -108,6 +110,7 @@ class QuestionView(View):
             new_comment.huati = question
             new_comment.user = user
             new_comment.comment = data
+            print(new_comment)
             try:
                 new_comment.save()
                 return redirect('questiondetile', id=question.id)
@@ -154,6 +157,4 @@ class EditPostView(View):
             editpost.save()
             return redirect('postdetile',id=id)
         except Exception as e:
-            print(e)
-            return render(request, 'huati/editpost.html', {'editpost': editpost, 'msg': '请稍后编辑！','fenlei':fenlei})
-        return render(request, 'huati/editpost.html',{'editpost':editpost,'fenlei':fenlei})
+            return render(request, 'huati/editpost.html', {'editpost': editpost, 'msg': u'请稍后编辑！','fenlei':fenlei})
